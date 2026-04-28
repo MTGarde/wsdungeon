@@ -1,0 +1,17 @@
+{
+  "title" : "First mission",
+  "description" : "This is the test mission. Play and find out what you can do!",
+  "start" : "room1",
+  "room_connections" : {
+    "room1" : {
+      "north" : "room2"
+    },
+    "room2" : {
+      "south" : "room1",
+      "east" : "room3"
+    },
+    "room3" : {
+      "west" : "room2"
+    }
+  }
+}
