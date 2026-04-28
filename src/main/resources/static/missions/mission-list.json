@@ -1,0 +1,5 @@
+[
+  { "id":  "defaultmission", "title": "Default mission", "description": "This is the default mission for testing purposes!" },
+  { "id":  "abc", "title": "Another mission", "description": "This mission doesn't exist, don't pick it." },
+  { "id":  "tootifrooti", "title": "The Cube", "description": "Turn all women into cubes or something." }
+]
