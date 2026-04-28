@@ -17,7 +17,7 @@ function connect() {
 
 }
 
-//
+// tiek gala ar message datiem un UI pievieno div ar message
 function printMessage(data) {
 
   let messages = document.getElementById("messages");
