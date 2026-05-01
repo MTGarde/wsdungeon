@@ -1,0 +1,14 @@
+{
+  "id" : "thecube",
+  "title" : "The Cube",
+  "description" : "One day a mysterious cube structure appeared in the middle of your city and people started turning into cubes. The duty falls on your shoulders to solve this mystery.",
+  "start" : "",
+  "roomConnections" : {
+    "room1" : {
+      "north" : "",
+      "south" : "",
+      "east" : "",
+      "west" : ""
+    }
+  }
+}
