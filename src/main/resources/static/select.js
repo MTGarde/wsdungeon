@@ -14,7 +14,7 @@ function showMissionSelect(missions) {
         const button = document.createElement("button");
 
         title.textContent = mission.title;              // ieliek tajos tekstu ko vajag
-        description.textContent = mission.description;
+        description.textContent = mission.description;  // neizmanto innerHTML drosibas apsverumu del
         button.textContent = "Start";
         button.addEventListener("click", () => startMission(mission.id));
 
@@ -26,6 +26,7 @@ function showMissionSelect(missions) {
 }
 
 function startMission(missionId) {
+    console.log("Game sent with the mission id: ", missionId);
     sessionStorage.setItem("missionId", missionId); // lai nav parametrs japadod pa url, to padod
     window.location.href = "/game.html";
 }

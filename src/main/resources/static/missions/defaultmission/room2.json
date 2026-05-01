@@ -1,6 +1,6 @@
 {
+  "id" : "room2",
   "title" : "Strangely warm room",
   "description" : "You enter a room that feels strangely warm for its appearance",
-  "look_description" : "After looking around you notice there are embers on the ground. Strange.",
-  "updated_description" : "You are in a warm room. There are embers on the ground."
+  "lookDescription" : "After looking around you notice there are embers on the ground. Strange."
 }
