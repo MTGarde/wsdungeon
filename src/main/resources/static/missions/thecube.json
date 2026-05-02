@@ -2,13 +2,59 @@
   "id" : "thecube",
   "title" : "The Cube",
   "description" : "One day a mysterious cube structure appeared in the middle of your city and people started turning into cubes. The duty falls on your shoulders to solve this mystery.",
-  "start" : "",
+  "start" : "room4",
   "roomConnections" : {
-    "room1" : {
-      "north" : "",
-      "south" : "",
-      "east" : "",
-      "west" : ""
+    "room4" : {
+      "east" : "room5"
+    },
+    "room5" : {
+      "north" : "room6",
+      "west" : "room4"
+    },
+    "room6" : {
+      "north" : "room8",
+      "south" : "room5",
+      "west" : "room7"
+    },
+    "room7" : {
+      "east" : "room6"
+    },
+    "room8" : {
+      "south" : "room6",
+      "down" : "room9"
+    },
+    "room9" : {
+      "east" : "room10",
+      "up" : "room8"
+    },
+    "room10" : {
+      "south" : "room11",
+      "east" : "room12",
+      "west" : "room9"
+    },
+    "room11" : {
+      "north" : "room10"
+    },
+    "room12" : {
+      "north" : "room13",
+      "west" : "room10"
+    },
+    "room13" : {
+      "north" : "room14",
+      "south" : "room12"
+    },
+    "room14" : {
+      "north" : "room15",
+      "south" : "room13"
+    },
+    "room15" : {
+      "south" : "room14",
+      "up" : "room16"
+    },
+    "room16" : {
+      "down" : "room17"
+    },
+    "room17" : {
     }
   }
 }
