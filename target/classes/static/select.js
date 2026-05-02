@@ -15,7 +15,7 @@ function showMissionSelect(missions) {
 
         title.textContent = mission.title;              // ieliek tajos tekstu ko vajag
         description.textContent = mission.description;  // neizmanto innerHTML drosibas apsverumu del
-        button.textContent = "Start";
+        button.textContent = mission.id;
         button.addEventListener("click", () => startMission(mission.id));
 
         option.appendChild(title);                      // pievieno elementus html
