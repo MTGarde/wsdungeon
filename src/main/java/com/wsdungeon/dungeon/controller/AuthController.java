@@ -3,12 +3,13 @@ package com.wsdungeon.dungeon.controller;
 import com.wsdungeon.dungeon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+@RestController // jo returno json
 public class AuthController {
     @Autowired
     private UserService userService;
@@ -19,7 +20,7 @@ public class AuthController {
         return ResponseEntity.ok("Registered successfully."); // ResponseEntity var izmantot javascripts
     }
 
-    // ResponseEntity - HTTP response - satur status code un kkadu jebkadu informaciju. Te vinu vajag lai javascripts var izmantot
+    // ResponseEntity - HTTP response - satur status code un kkadu jebkadu informaciju. status code vajag lai izsekotu kludas u.c.
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> body) {

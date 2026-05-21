@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <nav>
+        <a href="/" class = "logo">Šeit būs logo</a> <!-- class ir reusable un roomId nav -->
+        <ul id="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/missions">Missions</a></li>
+            <li id="characters-link" style="display:none"><a href="index.html">Characters</a></li> <!-- characters un friends tabi paradas tikai kad lietotajs pierakstas -->
+            <li id="friends-link" style="display:none"><a href="index.html">Friends</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+
+        <div id="auth-buttons">
+            <button id="sign-in"><a href="/register">Sign in</a></button>
+            <button id="sign-out" style="display:none">Sign out</button>
+        </div>
+    </nav>
+
+    <h1>Join a multiplayer game!</h1>
+    <p>Get a 6 digit join code from your group and input to join the game.</p>
+    <!-- https://www.twilio.com/en-us/blog/developers/best-practices/otp-input-forms-html -->
+    <div id="code-inputs">
+        <input class="code-box" maxlength="1" type="text" inputmode="numeric"> <!-- inputmode ir mobilajam browserim lai parada ciparu tastaturu -->
+        <input class="code-box" maxlength="1" type="text" inputmode="numeric">
+        <input class="code-box" maxlength="1" type="text" inputmode="numeric">
+        <input class="code-box" maxlength="1" type="text" inputmode="numeric">
+        <input class="code-box" maxlength="1" type="text" inputmode="numeric">
+        <input class="code-box" maxlength="1" type="text" inputmode="numeric">
+    </div>
+
+    <button id="join-btn" disabled>Join game</button>
+</body>
+</html>

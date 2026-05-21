@@ -1,7 +1,8 @@
 async function init() {
     // r ir envelope ar viskkadu info un .json() atgriez tiesi json dalu ka objektu
-    // un tad var vinu izmantot ta ka x.title vai x.description utt
+    // un tad var vinu izmantot ta ka r.title vai r.description utt
     const missions = await fetch('/missions/mission-list.json').then(r => r.json());
+
     showMissionSelect(missions);
 }
 
@@ -27,7 +28,7 @@ function showMissionSelect(missions) {
 
 function startMission(missionId) {
     console.log("Game sent with the mission id: ", missionId);
-    sessionStorage.setItem("missionId", missionId); // lai nav parametrs japadod pa url, to padod
+    sessionStorage.setItem("missionId", missionId); // lai nav parametrs japadod pa url, to padod pa sessionStorage
     window.location.href = "/game.html";
 }
 

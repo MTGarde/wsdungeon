@@ -40,19 +40,17 @@ function handleCommand(input) {
             handleHelp();
             break;
         default:
-            print("You can't do that. Type \"help\" to see a list of commands.");
+            return print("You can't do that. Try 'help' for a list of commands.");
     }
 }
 
 async function handleGo(direction) {
     if (!direction) {
-        console.log("User didn't input location.");
         print("Where are you trying to go?");
         return;
     }
 
     if (!availableDirections[direction]) {
-        console.log("No available directions from this room.");
         print("You can't go there.");
         return;
     }
@@ -73,13 +71,13 @@ function handleLook() {
 }
 
 function handleHelp() {
-    print("Help:\ngo [direction] - move in a direction [north, south, east, west]\nmore actions coming soon.");
+    print("Help:\ngo [direction] - move in a direction [north, south, east, west]\nlook around\nmore actions coming soon.");
 }
 
 function print(text) {
     const output = document.getElementById("output");
     const line = document.createElement("p");
-    line.textContent = text;
+    line.textContent = text; // lietotajs nevar cross site scriptot jo netiek izmantots innerhtml. izmantoju textcontent
     output.appendChild(line);
     output.scrollTop = output.scrollHeight; // aizscrollo lidz apaksai
 }
