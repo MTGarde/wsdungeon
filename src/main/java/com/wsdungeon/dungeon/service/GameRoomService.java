@@ -1,12 +1,18 @@
 package com.wsdungeon.dungeon.service;
 
+import com.wsdungeon.dungeon.model.GameResponse;
 import com.wsdungeon.dungeon.model.GameSession;
 import com.wsdungeon.dungeon.model.User;
 import com.wsdungeon.dungeon.repo.GameSessionRepository;
+import com.wsdungeon.dungeon.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -14,27 +20,44 @@ public class GameRoomService {
     @Autowired
     private GameSessionRepository gameSessionRepository;
 
-    public ResponseEntity<String> createGameRoom (String missionId, User user) {
+    @Autowired
+    private UserRepository userRepository;
+
+    public GameResponse createGameRoom (String missionId, String userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
         GameSession session = new GameSession(user, missionId);
+        session.addPlayerToList(user);
         gameSessionRepository.save(session);
-        return ResponseEntity.ok("Session created");
+
+        Map<String, String> things = new HashMap<>(); // TODO izdomat kko labaku
+        things.put("sessionId", session.getId());
+
+        return new GameResponse("Game room created!", things);
     }
 
-    public ResponseEntity<String> joinGameRoom (String code, User user) {
-        if (gameSessionRepository.existsByJoinCodeAndMultiplayer(code, true)) {
-            GameSession session = gameSessionRepository.findByJoinCode(code).get(); // vajag get(), jo repo atgriez optional
-            session.addPlayerToList(user);
-            gameSessionRepository.save(session); // save updato jau esosos un pievieno jaunos entryjus
-            return ResponseEntity.ok("User joined session.");
-        }
-        return ResponseEntity.notFound().build();
+    public GameResponse joinGameRoom (String code, String userId) {
+
+        GameSession session = gameSessionRepository.findByJoinCode(code).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid join code."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
+        session.addPlayerToList(user);
+        gameSessionRepository.save(session);
+
+        Map<String, String> things = new HashMap<>(); // TODO izdomat kko labaku
+        things.put("sessionId", session.getId());
+
+        return new GameResponse("Player has joined the game.", things);
+
     }
 
-    public ResponseEntity<String> openMultiplayer (String sessionId) {
-        GameSession session = gameSessionRepository.findById(sessionId).get();
+    public GameResponse openMultiplayer (String sessionId) {
+        GameSession session = gameSessionRepository.findById(sessionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game session not found."));
         session.setMultiplayer(true);
         gameSessionRepository.save(session);
-        return ResponseEntity.ok("Multiplayer enabled.");
+
+        Map<String, String> things = new HashMap<>(); // TODO izdomat kko labaku
+        things.put("sessionId", session.getJoinCode());
+
+        return new GameResponse("Game opened to multiplayer.", things);
     }
 
     private String generateCode () {
