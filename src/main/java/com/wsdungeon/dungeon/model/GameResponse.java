@@ -1,27 +1,25 @@
 package com.wsdungeon.dungeon.model;
 
+import com.wsdungeon.dungeon.model.JSONclasses.Room;
 import lombok.Data;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Data
 public class GameResponse {
     private String message;
-    private Room currentRoom;
-    private Map<String, String> things = new HashMap<>();
+    private RoomInstance currentRoom;
+    private String description;
+    private List<String> exits;
 
     public GameResponse (String message) {
         setMessage(message);
     }
 
-    public GameResponse (String message, Room room) {
+    public GameResponse (String message, RoomInstance roomInstance, Room room) {
         setMessage(message);
-        setCurrentRoom(room);
+        setCurrentRoom(roomInstance);
+        setDescription(roomInstance.getCurrentDescription(room));
     }
 
-    public GameResponse (String message, Map<String, String> things) {
-        setMessage(message);
-        setThings(things);
-    }
 }

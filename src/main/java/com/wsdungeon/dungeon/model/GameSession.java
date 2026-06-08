@@ -1,5 +1,6 @@
 package com.wsdungeon.dungeon.model;
 
+import com.wsdungeon.dungeon.model.JSONclasses.Room;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -40,15 +41,24 @@ public class GameSession {
 
     @OneToMany
     @JoinTable(name = "session_rooms")
-    List<Room> roomProgress = new ArrayList<>();
+    List<RoomInstance> roomProgress = new ArrayList<>();
 
-    public void addRoomProgress (GameResponse message) { // pievieno istabu explorotajam sarakstam kad ieiet jauna istaba
+    BattleState battleState;
+
+    List<Character> missionCharacters;
+
+    // nomainīt uz roomInstance un tad pievieno to instance sarakjstam
+    public void updateRoomProgress(GameResponse message) { // atjauno istabas datus ja kkas mainas gajiena beigas
         if (!message.getCurrentRoom().getRoomId().isEmpty()) { // ja message ir padota istaba
             if (!containsRoom(message.getCurrentRoom().getRoomId())) { // ja tada jau nav explorota
-                roomProgress.add(new Room(message.getCurrentRoom().getRoomId())); // tad pievieno explorotajam sarakstam
+                Room newInstance = new Room(message.getCurrentRoom().getRoomId()); // izveido jaunu instanci
+                // TODO velak pievienot ari citus parametrus
+                roomProgress.add(newInstance);
+            } else if (containsRoom(message.getCurrentRoom().getRoomId())) { // ja ir explorota tada istaba
+                //TODO tad updato datus
             }
         }
-        // TODO velak pievienot ari citus parametrus
+
     }
 
     private boolean containsRoom (String id) {

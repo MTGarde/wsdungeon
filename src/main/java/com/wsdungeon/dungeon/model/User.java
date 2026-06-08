@@ -14,7 +14,7 @@ import lombok.Setter;
 public class User {
     @Setter(AccessLevel.NONE)
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID) // UUID ir vis drosakais lietotaja roomId
+    @GeneratedValue(strategy = GenerationType.UUID) // UUID ir vis drosakais
     private String id;
 
     @Column(unique = true, nullable = false)
