@@ -39,10 +39,10 @@ public class MissionLoader {
 
     }
 
-    public Room loadRoom (String missionId, String roomId) throws IOException{
+    public Room loadRoom (String roomId) throws IOException{
 
         if (!roomCache.containsKey(roomId)) {
-            ClassPathResource roomFile = new ClassPathResource("/static/missions/" + missionId + "/" + roomId + ".json");
+            ClassPathResource roomFile = new ClassPathResource("/static/missions/rooms/" + roomId + ".json");
             Room room = objectMapper.readValue(roomFile.getInputStream(), Room.class);
             roomCache.put(roomId, room);
         }

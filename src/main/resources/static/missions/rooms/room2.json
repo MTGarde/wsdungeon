@@ -1,0 +1,10 @@
+{
+  "id" : "room2",
+  "title" : "Strangely warm room",
+  "descriptions" : {
+     "ENTER" : "you enter the rooom",
+    "DEFAULT" : "You enter a room that feels strangely warm for its appearance",
+    "UPDATED" : "something has changed",
+    "LOOK" : "After looking around you notice there are embers on the ground. Strange."
+  }
+}

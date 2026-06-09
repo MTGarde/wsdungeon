@@ -10,7 +10,7 @@ import java.util.Map;
 @Data
 public class BattleClass {
     String id;
-    String hp; // "D10, D6" utt. nosaka, kads kaulins jamet kad ir level ups lai paaugstinatu max hp
+    Integer hp; // "D10, D6" utt. nosaka, kads kaulins jamet kad ir level ups lai paaugstinatu max hp
     StatsEnum[] proficiency;
     Map<String, Integer> startingEquipment;
     Map<DamageType, Integer> damageMitigation;

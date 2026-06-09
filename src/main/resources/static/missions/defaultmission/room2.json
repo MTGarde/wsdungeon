@@ -1,8 +1,0 @@
-{
-  "id" : "room2",
-  "title" : "Strangely warm room",
-  "descriptions" : {
-    "defaultDescription" : "You enter a room that feels strangely warm for its appearance",
-    "lookDescription" : "After looking around you notice there are embers on the ground. Strange."
-  }
-  }

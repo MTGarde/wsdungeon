@@ -10,7 +10,7 @@ public class GameResponse {
     private String message;
     private RoomInstance currentRoom;
     private String description;
-    private List<String> exits;
+    private String sessionId;
 
     public GameResponse (String message) {
         setMessage(message);
@@ -20,6 +20,11 @@ public class GameResponse {
         setMessage(message);
         setCurrentRoom(roomInstance);
         setDescription(roomInstance.getCurrentDescription(room));
+    }
+
+    public GameResponse (String message, String sessionId) {
+        setMessage(message);
+        setSessionId(sessionId);
     }
 
 }

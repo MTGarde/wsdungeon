@@ -10,7 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
+    @Bean // TODO jaizdzes man liekas jo sitais tagad disablo login
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
@@ -21,7 +21,7 @@ public class SecurityConfig {
     }
 
     @Bean // spring izmanto sito visur kur ir @Autowired
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
+    public PasswordEncoder passwordEncoder() { // PasswordEncoder ir interface, BCrypt... ir klase - implementacija
+        return new BCryptPasswordEncoder(10); // spring security iebuveta implementacija
     }
 }

@@ -1,6 +1,5 @@
 package com.wsdungeon.dungeon.model;
 
-import com.wsdungeon.dungeon.model.JSONclasses.Room;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,7 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -25,50 +26,45 @@ public class GameSession {
     @JoinColumn(name = "party_leader_id", nullable = false)
     User partyLeader;
 
+    @Column(unique = true)
     String joinCode;
+    @Column(nullable = false)
     boolean multiplayer = false;
 
     @ManyToMany
-    @JoinTable(name = "session_players")
+    @JoinTable(name = "session_players", joinColumns = @JoinColumn(name = "game_session_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     List<User> players = new ArrayList<>();
-    // Map<String, String> missionJSON; // missionjson taka viss kas ir faila - maybe vnk labak missionId
 
     @Column(nullable = false)
     String missionId;
 
-    @Column
-    String currentRoomId;
+    @OneToOne
+    @JoinColumn(name = "current_room_id")
+    RoomInstance currentRoom;
 
-    @OneToMany
-    @JoinTable(name = "session_rooms")
-    List<RoomInstance> roomProgress = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "session_id")
+    @MapKey(name = "roomId")
+    Map<String, RoomInstance> roomProgress = new HashMap<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "battle_state_id")
     BattleState battleState;
 
-    List<Character> missionCharacters;
+    @ManyToMany
+    @JoinTable(name = "session_characters", joinColumns = @JoinColumn(name = "session_id"), inverseJoinColumns = @JoinColumn(name = "character_id"))
+    List<GameCharacter> missionCharacters;
 
-    // nomainīt uz roomInstance un tad pievieno to instance sarakjstam
-    public void updateRoomProgress(GameResponse message) { // atjauno istabas datus ja kkas mainas gajiena beigas
-        if (!message.getCurrentRoom().getRoomId().isEmpty()) { // ja message ir padota istaba
-            if (!containsRoom(message.getCurrentRoom().getRoomId())) { // ja tada jau nav explorota
-                Room newInstance = new Room(message.getCurrentRoom().getRoomId()); // izveido jaunu instanci
-                // TODO velak pievienot ari citus parametrus
-                roomProgress.add(newInstance);
-            } else if (containsRoom(message.getCurrentRoom().getRoomId())) { // ja ir explorota tada istaba
-                //TODO tad updato datus
-            }
+    public void addRoomProgress(RoomInstance newRoom) {
+        if (roomProgress.containsKey(newRoom.getRoomId())) {
+            roomProgress.replace(newRoom.getRoomId(), newRoom); // ja tada jau ir tad aizvieto
+        } else { // ja nav tad pievieno
+            roomProgress.put(newRoom.getRoomId(), newRoom);
         }
 
+        setCurrentRoom(newRoom); // iestata current room uz istabu kura tiko iegaja
     }
 
-    private boolean containsRoom (String id) {
-        for (Room r : roomProgress) {
-            if (r.getRoomId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void addPlayerToList (User user) {
         players.add(user);

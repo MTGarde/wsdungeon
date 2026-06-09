@@ -14,5 +14,27 @@
     "room3" : {
       "west" : "room2"
     }
+  },
+  "enemies" : {
+    "room1" : [],
+    "room2" : [],
+    "room3" : []
+  },
+  "items" : {
+    "room1" : {
+      "stick" : 2
+    },
+    "room2" : {
+      "trash" : 5,
+      "stick" : 1
+    },
+    "room3" : {
+      "thing" : 1
+    }
+  },
+  "interactibles" : {
+    "room1" : [],
+    "room2" : [],
+    "room3" : []
   }
 }

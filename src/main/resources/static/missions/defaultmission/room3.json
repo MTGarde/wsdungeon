@@ -1,8 +1,0 @@
-{
-  "id" : "room3",
-  "title" : "Stone room",
-  "descriptions" : {
-    "defaultDescription" : "You find yourself in a cold stone room.\nIt is pretty dark but you think you can make something out in the darkness if you look close enough.",
-    "lookDescription" : "You light a torch to look around but there doesn't seem to be anything interesting."
-  }
-  }

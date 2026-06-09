@@ -26,10 +26,21 @@ function showMissionSelect(missions) {
     });
 }
 
-function startMission(missionId) {
+async function startMission(missionId) {
+    const userId = sessionStorage.getItem("userId");
+    console.log("userId:", userId);
+
+    const response = await fetch('/gameroom/start', {
+        method : 'POST',
+        headers: {'Content-Type' : 'application/json'},
+        body: JSON.stringify({missionId, userId : sessionStorage.getItem("userId")})
+    });
+
     console.log("Game sent with the mission id: ", missionId);
-    sessionStorage.setItem("missionId", missionId); // lai nav parametrs japadod pa url, to padod pa sessionStorage
-    window.location.href = "/game.html";
+    console.log("response status:", response.status);
+    const data = await response.json();
+    console.log("response data: ", data);
+    window.location.href = `/game/${data.sessionId}`;
 }
 
 init();

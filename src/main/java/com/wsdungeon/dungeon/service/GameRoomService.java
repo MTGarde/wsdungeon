@@ -7,12 +7,9 @@ import com.wsdungeon.dungeon.repo.GameSessionRepository;
 import com.wsdungeon.dungeon.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -25,14 +22,11 @@ public class GameRoomService {
 
     public GameResponse createGameRoom (String missionId, String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
-        GameSession session = new GameSession(user, missionId);
+        GameSession session = new GameSession(user, missionId); // party leader, mission id
         session.addPlayerToList(user);
         gameSessionRepository.save(session);
 
-        Map<String, String> things = new HashMap<>(); // TODO izdomat kko labaku
-        things.put("sessionId", session.getId());
-
-        return new GameResponse("Game room created!", things);
+        return new GameResponse("Game room created!", session.getId());
     }
 
     public GameResponse joinGameRoom (String code, String userId) {
@@ -42,22 +36,17 @@ public class GameRoomService {
         session.addPlayerToList(user);
         gameSessionRepository.save(session);
 
-        Map<String, String> things = new HashMap<>(); // TODO izdomat kko labaku
-        things.put("sessionId", session.getId());
-
-        return new GameResponse("Player has joined the game.", things);
+        return new GameResponse("Player has joined the game.");
 
     }
 
     public GameResponse openMultiplayer (String sessionId) {
         GameSession session = gameSessionRepository.findById(sessionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game session not found."));
         session.setMultiplayer(true);
+        session.setJoinCode(generateCode());
         gameSessionRepository.save(session);
 
-        Map<String, String> things = new HashMap<>(); // TODO izdomat kko labaku
-        things.put("sessionId", session.getJoinCode());
-
-        return new GameResponse("Game opened to multiplayer.", things);
+        return new GameResponse("Game opened to multiplayer.");
     }
 
     private String generateCode () {
