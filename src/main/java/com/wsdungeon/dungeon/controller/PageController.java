@@ -24,7 +24,7 @@ public class PageController {
         return "forward:/register.html";
     }
 
-    @GetMapping("/gameroom/join")
+    @GetMapping("/joingame")
     public String joinGameroom() {
         return "forward:/joingame.html";
     }

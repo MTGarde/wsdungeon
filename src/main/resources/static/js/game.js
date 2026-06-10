@@ -1,7 +1,6 @@
-console.log("full pathname:", window.location.pathname);
-console.log("split result:", window.location.pathname.split("/"));
 const sessionId = window.location.pathname.split("/")[2];
 // id ir ar indeksu 2 jo splitojot pirmais strings ir "" => "/game/id123" sadala vietas kur ir "/" un tad sanak "", "game", "id123"
+let stompClient = null;
 
 function print(text) { // izvada jebkadu tekstu
     const output = document.getElementById("output");
@@ -11,23 +10,35 @@ function print(text) { // izvada jebkadu tekstu
     output.scrollTop = output.scrollHeight; // aizscrollo lidz apaksai
 }
 
-async function sendCommand(input) {
-    const response = await fetch(`/game/${sessionId}/command`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'}, // nosaka, ka tiek sutiti json dati
-        body: JSON.stringify({ command: input }) // aizsuta uz service ievadito tekstu
+function connect() {
+    const socket = new SockJS('/ws');
+    stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, () => {
+        console.log("WebSocket connected");
+
+        // subscribo pasreizejas sesijas endpointam
+        stompClient.subscribe(`/topic/game/${sessionId}`, message => {
+            const data = JSON.parse(message.body);
+            console.log("parsed data:", data);
+            if (data.message) print(data.message);
+            if (data.description) print(data.description);
+        });
+
+        // kad savienojas, ielade sakuma speles stavokli
+        loadGameState();
     });
-    const data = await response.json(); // await - kods iet talak tikai kad tiek sanemta atbilde
-    if(data.message) print(data.message);
-    if(data.description) print(data.description);
-    if(data.exits) print("You can go " + data.exits.join(", "));
 }
 
-async function init() { // tikai kad uzsak speli
+async function sendCommand(input) {
+    stompClient.send(`/app/game/${sessionId}/command`, {}, JSON.stringify({ command: input, userId : sessionStorage.getItem("userId") }));
+}
+
+async function loadGameState() {
     const response = await fetch(`/game/start/${sessionId}`);
     const data = await response.json();
-    if(data.message) print(data.message);
-    if(data.description) print(data.description);
+    if (data.message) print(data.message);
+    if (data.description) print(data.description);
 }
 
 // gaida kad lietotajs teksta ievades elementaa nospiez enter
@@ -41,4 +52,4 @@ document.getElementById("usercommand").addEventListener("keydown", k => {
     }
 });
 
-init();
+connect();

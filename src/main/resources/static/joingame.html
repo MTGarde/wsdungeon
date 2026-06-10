@@ -5,21 +5,23 @@
     <title>Title</title>
 </head>
 <body>
-    <nav>
-        <a href="/" class = "logo">Šeit būs logo</a> <!-- class ir reusable un roomId nav -->
-        <ul id="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/missions">Missions</a></li>
-            <li id="characters-link" style="display:none"><a href="index.html">Characters</a></li> <!-- characters un friends tabi paradas tikai kad lietotajs pierakstas -->
-            <li id="friends-link" style="display:none"><a href="index.html">Friends</a></li>
-            <li><a href="/about">About</a></li>
-        </ul>
+<nav>
+    <a href="/" class = "logo">Šeit būs logo</a> <!-- class ir reusable un id nav -->
+    <ul id="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/missions">Missions</a></li>
+        <li class="hiddenLink" style="display:none"><a href="/mymissions">My Missions</a></li>
+        <li class="hiddenLink" style="display:none"><a href="/joingame">Join Game</a></li>
+        <li class="hiddenLink" style="display:none"><a href="/mycharacters">Characters</a></li> <!-- characters un friends tabi paradas tikai kad lietotajs pierakstas -->
+        <li class="hiddenLink" style="display:none"><a href="/friends">Friends</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
 
-        <div id="auth-buttons">
-            <button id="sign-in"><a href="/register">Sign in</a></button>
-            <button id="sign-out" style="display:none">Sign out</button>
-        </div>
-    </nav>
+    <div id="auth-buttons">
+        <button id="logInButton"><a href="/login">Sign in</a></button>
+        <button id="logOutButton" style="display:none">Sign out</button>
+    </div>
+</nav>
 
     <h1>Join a multiplayer game!</h1>
     <p>Get a 6 digit join code from your group and input to join the game.</p>
@@ -35,5 +37,20 @@
 
     <p id="error-message" style="display:none; color:red;"></p>
     <button id="join-btn" disabled>Join game</button>
+
+<script>
+    if (sessionStorage.getItem('userId')) {
+        document.querySelectorAll('.hiddenLink').forEach(el => {
+            el.style.display = 'revert';
+        });
+        document.querySelector('#logInButton')?.style.setProperty('display', 'none');
+        document.querySelector('#logOutButton')?.style.setProperty('display', 'revert');
+    }
+
+    document.querySelector('#logOutButton').addEventListener('click', () => {
+      sessionStorage.removeItem('userId');
+      window.location.href = '/';
+    });
+</script>
 </body>
 </html>

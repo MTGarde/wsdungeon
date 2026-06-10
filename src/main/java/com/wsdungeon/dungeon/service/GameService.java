@@ -5,6 +5,7 @@ import com.wsdungeon.dungeon.model.JSONclasses.Mission;
 import com.wsdungeon.dungeon.model.enums.DescriptionType;
 import com.wsdungeon.dungeon.repo.GameSessionRepository;
 import com.wsdungeon.dungeon.repo.RoomInstanceRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class GameService {
     @Autowired
     private MissionLoader missionLoader;
 
+    @Transactional // transactional patur vala savienojumu, lai visas lazy loading lietas varetu paspet ieloadoties
     public GameResponse startGame (GameSession session) throws IOException {
 
         if (session.getCurrentRoom() == null) { // ja sesija tiek uzsakta pirmo reizi tad current room ir jabut start room
@@ -40,7 +42,8 @@ public class GameService {
         return new GameResponse("Mission start.", session.getCurrentRoom(), missionLoader.loadRoom(session.getCurrentRoom().getRoomId()));
     }
 
-    public GameResponse handleCommand(String sessionId, String input) throws IOException {
+    @Transactional
+    public GameResponse handleCommand(String sessionId, String userId, String input) throws IOException {
         String[] tokens = input.toLowerCase().trim().split(" ");
         String action = tokens[0];
         String target = tokens.length > 1 ? tokens[1] : null;
@@ -58,6 +61,7 @@ public class GameService {
         };
     }
 
+    @Transactional
     public GameResponse handleGo(GameSession session, String direction) throws IOException {
         if (direction == null) {
             return new GameResponse("Where are you trying to go?");
@@ -78,6 +82,7 @@ public class GameService {
         return new GameResponse("You can't go there");
     }
 
+    @Transactional
     public GameResponse handleLook(GameSession session, String object)  throws IOException {
         if ( object == null || object.equals("around") ) { // izvada look aprakstu, izejas un objektus?
             String composedDescription = "You look around. ";
@@ -104,10 +109,12 @@ public class GameService {
         return new GameResponse("What are you trying to see?");
     }
 
+    @Transactional
     public GameResponse handleHelp() {
         return new GameResponse("go [direction], look around, help");
     }
 
+    @Transactional
     private RoomInstance createRoomInstance (String missionId, String roomId) throws IOException {
         Mission mission = missionLoader.loadMission(missionId);
 

@@ -29,10 +29,6 @@ public class GameController {
 
     }
 
-    @PostMapping("/game/{sessionId}/command")
-    public ResponseEntity<GameResponse> command(@PathVariable String sessionId, @RequestBody Map<String, String> body) throws IOException {
-        GameResponse response = gameService.handleCommand(sessionId, body.get("command")); // command no javascripta
-        return ResponseEntity.ok(response);
-    }
+    // iznemu ara @PostMapping endpointu, kas handlo komandas - tagad tas ir websocket controleri
 
 }
